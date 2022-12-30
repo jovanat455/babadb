@@ -24,4 +24,28 @@ namespace BabaDB
             Size = size;
         }
     }
+
+    public class OrderItem
+    {
+        public string MealName { get; set; }
+        public int Amount { get; set; }
+
+        public OrderItem(string name, int size)
+        {
+            MealName = name;
+            Amount = size;
+        }
+    }
+
+    public class UserOrder
+    {
+        public string Name { get; set; }
+        public List<OrderItem> OrderedItems {get; set;}
+
+        public UserOrder(string name)
+        {
+            Name = name;
+            OrderedItems = new List<OrderItem>();
+        }
+    }
 }

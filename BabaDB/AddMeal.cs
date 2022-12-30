@@ -27,7 +27,7 @@ namespace BabaDB
                 String connetionString = Env.DbConnectionString;
                 SqlCommand command;
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                StringBuilder sb = new StringBuilder();
+               
                 var owner = req.Query["owner"];
                 var meals = req.Query["meals"];
 
@@ -37,9 +37,9 @@ namespace BabaDB
 
                 foreach (var meal in mealList)
                 {
+                    StringBuilder sb = new StringBuilder();
                     cnn.Open();
-                    int id = GetNextId();
-                    String sql = sb.AppendFormat(Queries.InsertMeals, id, owner, DateTime.Now, meal.Size, meal.Name).ToString();
+                    String sql = sb.AppendFormat(Queries.InsertMeals, owner, DateTime.Now, meal.Size, meal.Name).ToString();
                     command = new SqlCommand(sql, cnn);
                     command.CommandType = System.Data.CommandType.Text;
                     command.ExecuteReader();
@@ -73,29 +73,6 @@ namespace BabaDB
 
             return mealsList;
 
-        }
-
-        public static int GetNextId()
-        {
-
-            StringBuilder sb = new StringBuilder();
-            int id = 0;
-            String sql = sb.AppendFormat(Queries.GetNumberOfMeals, DateTime.Now).ToString();
-            SqlCommand command;
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            SqlConnection cnn = new SqlConnection(Env.DbConnectionString);
-            cnn.Open();
-            command = new SqlCommand(sql, cnn);
-            command.CommandType = System.Data.CommandType.Text;
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    id++;
-                }
-            }
-            cnn.Close();
-            return ++id;
         }
 
     }
