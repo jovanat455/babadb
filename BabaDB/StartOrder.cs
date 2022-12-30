@@ -20,7 +20,7 @@ namespace BabaDB
         [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
         ILogger log)
         {
-            string responseMessage = "Res: ";
+            string responseMessage;
             try
             {
                 String connetionString = Env.DbConnectionString;
@@ -36,15 +36,16 @@ namespace BabaDB
                 command.ExecuteReader();
                 cnn.Close();
                 
-                return new OkObjectResult("Ok");
+                return new OkObjectResult("Order is created now! You are the owner :P");
 
             }
             catch (Exception e)
             {
-                responseMessage = responseMessage + e.Message;
+                responseMessage = e.Message.Contains("duplicate key") ? GetOrder.GetOrderExecuteQuery() : e.Message;
                 return new OkObjectResult(responseMessage);
             }
 
         }
+
     }
 }

@@ -12,4 +12,16 @@ namespace BabaDB
             Name = name;
         }
     }
+
+    public class Meal
+    {
+        public string Name { get; set; }
+        public int Size { get; set; }
+
+        public Meal(string name, int size)
+        {
+            Name = name;
+            Size = size;
+        }
+    }
 }
