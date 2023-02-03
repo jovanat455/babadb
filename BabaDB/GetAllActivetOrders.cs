@@ -23,9 +23,12 @@ namespace BabaDB
             string responseMessage;
             try
             {
+
+                var makeMealNameNicer = req.Query["StringCorrect"];
+               
                 log.LogInformation("C# HTTP trigger function processed a request.");
 
-                var getAllActiveOrders = GetAllActiveOrdersExecuteQuery();
+                var getAllActiveOrders = GetAllActiveOrdersExecuteQuery(makeMealNameNicer == "1");
 
                 string stringJson = JsonConvert.SerializeObject(getAllActiveOrders);
                 return new OkObjectResult(stringJson);
@@ -39,7 +42,7 @@ namespace BabaDB
 
         }
 
-        public static List<UserOrder> GetAllActiveOrdersExecuteQuery()
+        public static List<UserOrder> GetAllActiveOrdersExecuteQuery(bool embellishString=false)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -58,6 +61,10 @@ namespace BabaDB
                 {
                     var user = reader["Owner"].ToString();
                     var meal = reader["MealName"].ToString();
+                    if(embellishString)
+                    {
+                        meal = meal.Split('(')[0];
+                    }
                     var amount = reader["Amount"].ToString();
                     var x = allOrders.Find(a => a.Name.Equals(user));
                     if (x != null)

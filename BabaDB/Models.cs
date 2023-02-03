@@ -48,4 +48,16 @@ namespace BabaDB
             OrderedItems = new List<OrderItem>();
         }
     }
+
+    public class OrderedMeal
+    {
+        public string Name { get; set; }
+        public float Price { get; set; }
+
+        public OrderedMeal(string name, float price)
+        {
+            Name = name;
+            Price = price;
+        }
+    }
 }

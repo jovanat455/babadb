@@ -65,7 +65,8 @@ namespace BabaDB
 
             foreach(var item in temp)
             {
-                string[] temp1 = item.Split('(');
+                if (item == "") continue;
+                string[] temp1 = item.Split('{');
                 Meal meal = new Meal(temp1[0], temp1[1][0] - '0');
                 mealsList.Add(meal);
             }
